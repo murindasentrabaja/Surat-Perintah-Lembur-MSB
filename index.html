@@ -151,8 +151,8 @@
 
         .main-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
         .main-table th { background-color: #f1f5f9; border: 1px solid #334155; padding: 8px 2px; font-size: 10px; font-weight: 700; text-align: center; text-transform: uppercase; }
-        .main-table td { border: 1px solid #334155; padding: 4px 2px; text-align: center; vertical-align: middle; overflow: hidden; }
-        .main-table input, .main-table select { padding: 4px 3px; font-size: 10.5px; width: 100%; box-sizing: border-box; text-overflow: clip; }
+        .main-table td { border: 1px solid #334155; padding: 4px 2px; text-align: center; vertical-align: middle; overflow: visible; }
+        .main-table input, .main-table select { padding: 4px 3px; font-size: 10.5px; width: 100%; box-sizing: border-box; text-overflow: ellipsis; }
         .main-table td:nth-child(4), .main-table td:nth-child(5) { text-align: left; }
         .mh-col { font-weight: 700; color: var(--primary); font-size: 11px; text-align: center !important; }
 
@@ -200,9 +200,12 @@
             #adminScreen { display: block !important; width: 100%; }
             .document-wrapper { padding: 0; overflow-x: visible; }
             .document-a4 { box-shadow: none; padding: 0; margin: 0 auto; width: 100%; max-width: 100%; min-height: auto; } 
-            .main-table { table-layout: auto !important; width: 100% !important; }
+            
+            /* PENTING: Fix agar tabel menghormati colgroup dan melebarkan kolom secara konsisten */
+            .main-table { table-layout: fixed !important; width: 100% !important; }
             .main-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 6px 2px; font-size: 9px; }
-            .main-table td { padding: 5px 2px; font-size: 9px; color: black; }
+            /* Menghilangkan efek pemotongan paksa (overflow: hidden) */
+            .main-table td { padding: 5px 2px; font-size: 9px; color: black; overflow: visible !important; }
             .info-section { background: transparent; border: none; padding: 0; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; }
             .info-group input { border: none !important; border-bottom: 1px dotted #000 !important; background: transparent; }
             
@@ -218,7 +221,7 @@
                 color: black !important;
                 font-size: 9px !important;
             }
-            .main-table input { border: none !important; background: transparent !important; padding: 0 !important; color: black !important; font-size: 9px !important; }
+            .main-table input { border: none !important; background: transparent !important; padding: 0 !important; color: black !important; font-size: 9.5px !important; overflow: visible !important; white-space: normal !important; text-overflow: clip !important; }
         }
     </style>
 </head>
@@ -425,15 +428,7 @@
 
             <table class="main-table">
                 <colgroup>
-                    <col style="width: 4%;">  
-                    <col style="width: 11%;"> 
-                    <col style="width: 14%;"> 
-                    <col style="width: 20%;"> 
-                    <col style="width: 26%;"> 
-                    <col style="width: 12%;"> 
-                    <col style="width: 8%;">  
-                    <col style="width: 5%;"> 
-                </colgroup>
+                    <col style="width: 4%;">  <col style="width: 9%;">  <col style="width: 13%;"> <col style="width: 16%;"> <col style="width: 34%;"> <col style="width: 11%;"> <col style="width: 8%;">  <col style="width: 5%;" class="action-col"> </colgroup>
                 <thead>
                     <tr>
                         <th>No</th>
@@ -442,7 +437,7 @@
                         <th>Nama Karyawan</th>
                         <th>Tugas / Pekerjaan</th>
                         <th>Waktu Jam</th>
-                        <th id="colHeaderMHTTD">MH (Jam)</th>
+                        <th id="colHeaderMHTTD">TTD</th>
                         <th class="action-col">Aksi</th>
                     </tr>
                 </thead>
@@ -825,7 +820,6 @@
         }
     }
 
-    // FUNGSI RENDER GRAFIK MINGGUAN (HSE) - DIUBAH JADI TREND (LINE CHART) DENGAN EFEK VISUAL
     function renderWeeklyChart(weeklyData) {
         const ctx = document.getElementById('weeklyMHChart').getContext('2d');
         if (weeklyChartInstance) { weeklyChartInstance.destroy(); }
