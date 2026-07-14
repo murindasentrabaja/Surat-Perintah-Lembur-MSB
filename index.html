@@ -151,10 +151,12 @@
 
         .main-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
         .main-table th { background-color: #f1f5f9; border: 1px solid #334155; padding: 8px 2px; font-size: 10px; font-weight: 700; text-align: center; text-transform: uppercase; }
-        .main-table td { border: 1px solid #334155; padding: 4px 2px; text-align: center; vertical-align: middle; overflow: visible; }
+        .main-table td { border: 1px solid #334155; padding: 4px 2px; text-align: center; vertical-align: middle; overflow: visible; position: relative; }
         .main-table input, .main-table select { padding: 4px 3px; font-size: 10.5px; width: 100%; box-sizing: border-box; text-overflow: ellipsis; }
         .main-table td:nth-child(4), .main-table td:nth-child(5) { text-align: left; }
-        .mh-col { font-weight: 700; color: var(--primary); font-size: 11px; text-align: center !important; }
+        
+        /* Tambahan position relative untuk kolom TTD (mh-col) */
+        .mh-col { font-weight: 700; color: var(--primary); font-size: 11px; text-align: center !important; position: relative; }
 
         .btn-add-row { width: 100%; padding: 12px; background: #eff6ff; color: var(--primary); border: 2px dashed #93c5fd; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; margin-bottom: 30px; }
         
@@ -779,8 +781,32 @@
             if (start.length === 2 && end.length === 2) {
                 let startMin = parseInt(start[0], 10) * 60 + parseInt(start[1], 10);
                 let endMin = parseInt(end[0], 10) * 60 + parseInt(end[1], 10);
-                if (endMin > startMin) return (endMin - startMin) / 60;
-                else return ((endMin + 1440) - startMin) / 60;
+                
+                // Menangani lembur yang melewati tengah malam (cross-midnight)
+                if (endMin < startMin) {
+                    endMin += 1440; // Ditambah 24 jam dalam menit
+                }
+                
+                let totalMinutes = endMin - startMin;
+                
+                // Definisi window waktu istirahat dalam menit dari jam 00:00 (Hari 1 & Hari 2 untuk cross-midnight)
+                let breakWindows = [
+                    { start: 720, end: 780 },     // 12:00 - 13:00 Hari ke-1
+                    { start: 1080, end: 1140 },   // 18:00 - 19:00 Hari ke-1
+                    { start: 2160, end: 2220 },   // 12:00 - 13:00 Hari ke-2
+                    { start: 2520, end: 2580 }    // 18:00 - 19:00 Hari ke-2
+                ];
+                
+                let totalBreakMinutes = 0;
+                
+                // Hitung irisan/overlap waktu lembur dengan waktu istirahat
+                breakWindows.forEach(b => {
+                    let overlap = Math.max(0, Math.min(endMin, b.end) - Math.max(startMin, b.start));
+                    totalBreakMinutes += overlap;
+                });
+                
+                let netMinutes = totalMinutes - totalBreakMinutes;
+                return Math.max(0, netMinutes / 60);
             }
         }
         let num = parseFloat(waktuStr);
@@ -799,11 +825,14 @@
             let nama = tr.querySelector('.nama-input').value;
             let mh = hitungJamLembur(waktu);
             let mhCol = tr.querySelector('.mh-col');
+            let rowNo = tr.querySelector('.row-number').innerText;
 
             if (isHSE) {
-                mhCol.innerText = mh.toFixed(1);
+                // Tampilan HSE menampilkan jam Manhour
+                mhCol.innerHTML = mh.toFixed(1);
             } else {
-                mhCol.innerText = "";
+                // Tampilan Admin Edit menyuntikkan nomor urut di pojok kiri atas untuk kolom TTD
+                mhCol.innerHTML = `<div style="position: absolute; top: 2px; left: 4px; font-size: 8px; color: #475569; font-weight: bold;">${rowNo}</div>`;
             }
 
             if (nama && nama.trim() !== "") {
