@@ -37,62 +37,11 @@
             min-height: 100vh;
         }
 
-        /* ==================== LOGIN OVERLAY (MEWAH & ANIMATIF) ==================== */
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9998; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; }
-        
-        .login-wrapper { transform: scale(1); transition: transform 0.3s ease; animation: float-smooth 6s ease-in-out infinite; }
-        @keyframes float-smooth { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        @media (max-width: 768px) { .login-wrapper { transform: scale(0.8); animation: float-smooth-mobile 6s ease-in-out infinite; } }
-        @media (max-width: 500px) { .login-wrapper { transform: scale(0.55); animation: float-smooth-mobile-mini 6s ease-in-out infinite; } }
-        @keyframes float-smooth-mobile { 0%, 100% { transform: scale(0.8) translateY(0); } 50% { transform: scale(0.8) translateY(-10px); } }
-        @keyframes float-smooth-mobile-mini { 0%, 100% { transform: scale(0.55) translateY(0); } 50% { transform: scale(0.55) translateY(-8px); } }
-        
-        .login-card-overlay { position: relative; width: 850px; height: 490px; display: flex; align-items: center; justify-content: flex-start; padding-left: 50px; background: transparent; border-radius: 20px; font-family: 'Poppins', sans-serif; cursor: pointer; outline: none; }
-        
-        .login-card-overlay .circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1; pointer-events: none; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .login-card-overlay .circle::before { content: ''; position: absolute; width: 250px; height: 250px; background: transparent; border: 4px solid #124388; border-radius: 50%; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: pulse-glow 3s infinite alternate; }
-        
-        @keyframes pulse-glow { 0% { box-shadow: 0 0 15px rgba(18, 67, 136, 0.3), inset 0 0 10px rgba(18, 67, 136, 0.2); } 100% { box-shadow: 0 0 45px rgba(18, 67, 136, 0.8), inset 0 0 25px rgba(18, 67, 136, 0.5); } }
-        
-        .login-card-overlay .logo-wrapper { z-index: 12; text-align: center; transition: 0.5s ease-in-out; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
-        .login-card-overlay .logo-wrapper .logo_img { max-width: 180px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); animation: logo-breath 4s ease-in-out infinite; }
-        @keyframes logo-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        
-        .login-card-overlay:hover .circle::before, .login-card-overlay:focus-within .circle::before { width: 100%; height: 100%; border-radius: 20px; background: linear-gradient(135deg, #0a1930, #124388); box-shadow: 0 20px 60px rgba(18, 67, 136, 0.5); border: 0px solid transparent; animation: none; }
-        .login-card-overlay:hover .logo-wrapper, .login-card-overlay:focus-within .logo-wrapper { opacity: 0; transform: scale(0.3); pointer-events: none; }
-        
-        .login-card-overlay .content { position: relative; z-index: 10; width: 100%; max-width: 380px; opacity: 0; visibility: hidden; transform: translateX(-50px); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: default; }
-        .login-card-overlay:hover .content, .login-card-overlay:focus-within .content { opacity: 1; visibility: visible; transform: translateX(0); transition-delay: 0.3s; }
-        
-        .login-card-overlay .content h2 { color: #fff; font-size: 2rem; font-weight: 800; letter-spacing: 2px; margin-bottom: 12px; white-space: nowrap; animation: text-glow 2s ease-in-out infinite alternate; }
-        @keyframes text-glow { 0% { text-shadow: 0 0 10px rgba(255,255,255,0.2); } 100% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(6, 182, 212, 0.6); } }
-
-        .login-address-block { display: block; text-decoration: none; background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--primary-cyan); border-radius: 12px; padding: 18px 20px; margin-bottom: 22px; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .login-address-block:hover { transform: translateX(8px); background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); border-left-color: var(--primary-orange); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border-color: rgba(255, 255, 255, 0.2); }
-        .login-address-block .company-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: #ffffff; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .login-address-block .address-text { font-family: 'Nunito', sans-serif; font-size: 0.75rem; font-weight: 300; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
-        .login-address-block .contact-info { display: flex; flex-direction: column; gap: 6px; font-family: 'Nunito', sans-serif; font-size: 0.75rem; font-weight: 500; color: var(--primary-cyan); }
-        .login-address-block .contact-info span { display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
-        .login-address-block:hover .contact-info span { color: #fff; }
-        .login-address-block .contact-info i { width: 14px; text-align: center; color: var(--primary-orange); }
-        
-        .action-container { position: relative; margin-top: 10px; }
-        .luxury-btn { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; padding: 16px 25px; background: linear-gradient(45deg, #b92025, #e53935, #b92025); background-size: 200% auto; color: #fff; font-weight: 800; font-size: 1.1rem; border: none; cursor: pointer; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(185, 32, 37, 0.4); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; animation: gradient-shift 3s ease infinite; }
-        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .luxury-btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent); transform: skewX(-20deg); transition: 0.7s; }
-        .luxury-btn:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 15px 40px rgba(185, 32, 37, 0.6); }
-        .luxury-btn:hover::after { left: 150%; }
-        
-        .login-card-overlay .factory_img { position: absolute; top: 50%; left: 50%; width: 350px; height: 230px; object-fit: cover; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transform: translate(-50%, -50%) scale(0) rotate(-10deg); z-index: 11; transition: 0.7s cubic-bezier(0.25, 1, 0.5, 1.2); pointer-events: none; opacity: 0; }
-        .login-card-overlay:hover .factory_img, .login-card-overlay:focus-within .factory_img { top: 50%; left: 75%; transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; transition-delay: 0.2s; }
-
-
         /* --- TAMPILAN SISTEM LEMBUR --- */
         .document-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; overflow-x: auto; padding: 10px 0; }
 
-        /* TAMPILAN LOGIN (Awalnya disembunyikan oleh overlay) */
-        #loginScreen { display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; margin-top: 50px; animation: fadeInForm 0.8s ease forwards; }
+        /* TAMPILAN LOGIN */
+        #loginScreen { display: block; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; margin-top: 50px; animation: fadeInForm 0.8s ease forwards; }
         @keyframes fadeInForm { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         #loginScreen h2 { margin-top: 0; color: var(--primary); }
@@ -155,12 +104,10 @@
         .main-table input, .main-table select { padding: 4px 3px; font-size: 10.5px; width: 100%; box-sizing: border-box; text-overflow: ellipsis; }
         .main-table td:nth-child(4), .main-table td:nth-child(5) { text-align: left; }
         
-        /* Tambahan position relative untuk kolom TTD (mh-col) */
         .mh-col { font-weight: 700; color: var(--primary); font-size: 11px; text-align: center !important; position: relative; }
 
         .btn-add-row { width: 100%; padding: 12px; background: #eff6ff; color: var(--primary); border: 2px dashed #93c5fd; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; margin-bottom: 30px; }
         
-        /* Tombol Delete / Hapus yang ditambahkan kembali */
         .btn-delete { background: #fee2e2; color: var(--danger); border: 1px solid #fca5a5; border-radius: 4px; padding: 6px; cursor: pointer; font-size: 12px; font-weight: bold; width: 100%; transition: all 0.2s; display: inline-flex; justify-content: center; align-items: center; }
         .btn-delete:hover { background: #ef4444; color: white; border-color: #ef4444; }
 
@@ -198,20 +145,17 @@
         @media print {
             @page { size: A4 portrait; margin: 8mm; }
             body { background: white; padding: 0; display: block; }
-            #loginScreen, #rekapanScreen, .controls-wrapper, .btn-add-row, .action-col, .btn-delete, #loadingOverlay, .executive-panel, #login-overlay { display: none !important; }
+            #loginScreen, #rekapanScreen, .controls-wrapper, .btn-add-row, .action-col, .btn-delete, #loadingOverlay, .executive-panel { display: none !important; }
             #adminScreen { display: block !important; width: 100%; }
             .document-wrapper { padding: 0; overflow-x: visible; }
             .document-a4 { box-shadow: none; padding: 0; margin: 0 auto; width: 100%; max-width: 100%; min-height: auto; } 
             
-            /* PENTING: Fix agar tabel menghormati colgroup dan melebarkan kolom secara konsisten */
             .main-table { table-layout: fixed !important; width: 100% !important; }
             .main-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 6px 2px; font-size: 9px; }
-            /* Menghilangkan efek pemotongan paksa (overflow: hidden) */
             .main-table td { padding: 5px 2px; font-size: 9px; color: black; overflow: visible !important; }
             .info-section { background: transparent; border: none; padding: 0; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; }
             .info-group input { border: none !important; border-bottom: 1px dotted #000 !important; background: transparent; }
             
-            /* Penyesuaian agar arrow dropdown hilang saat di-print */
             select, .main-table select { 
                 -webkit-appearance: none !important; 
                 -moz-appearance: none !important; 
@@ -242,41 +186,6 @@
     <div id="loadingText" class="loading-text">Memproses data... ⏳</div>
 </div>
 
-<div id="login-overlay">
-    <div class="login-wrapper">
-        <div class="login-card-overlay" tabindex="0">
-            <div class="circle">
-                <div class="logo-wrapper">
-                    <img src="MSB Logo.png" class="logo_img" alt="Logo PT Murinda" onerror="this.src='https://via.placeholder.com/180x60?text=MSB+Logo'">
-                </div>
-            </div>
-            
-            <div class="content">
-                <h2>Portal Lembur</h2>
-                
-                <div class="login-address-block">
-                    <div class="company-name">PT Murinda Sentra Baja</div>
-                    <div class="address-text">
-                        Plant Subang - Jl. Raya Kalijati Purwadadi<br>
-                        Desa Kalijati Barat, Kabupaten Subang<br>
-                        Sistem Pengajuan & Penilaian Kinerja Lembur
-                    </div>
-                    <div class="contact-info">
-                        <span><i class="fa-solid fa-building-shield"></i> Portal Aman Karyawan MSB</span>
-                    </div>
-                </div>
-
-                <div class="action-container">
-                    <button class="luxury-btn" onclick="masukLayarLogin(event)" id="enterBtn">
-                        <i class="fa-solid fa-fingerprint"></i> Lanjut Sistem
-                    </button>
-                </div>
-            </div>
-
-            <img src="Plant MSB.jpg" class="factory_img" alt="Plant PT Murinda" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop'">
-        </div>
-    </div>
-</div>
 <div id="loginScreen">
     <img src="MSB Logo.png" alt="Logo MSB" style="max-height: 40px; margin-bottom: 15px;" onerror="this.style.display='none'">
     <h2>Portal Lembur</h2>
@@ -505,24 +414,6 @@
     let formDetailsCache = {}; 
     let weeklyChartInstance = null;
 
-    function masukLayarLogin(e) {
-        e.preventDefault();
-        const btn = document.getElementById('enterBtn');
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> MEMUAT...';
-        btn.style.pointerEvents = 'none';
-
-        setTimeout(() => {
-            const overlay = document.getElementById('login-overlay');
-            overlay.style.opacity = "0";
-            overlay.style.visibility = "hidden";
-            
-            setTimeout(() => {
-                overlay.style.display = "none";
-                document.getElementById('loginScreen').style.display = "block";
-            }, 800);
-        }, 1200);
-    }
-
     function parseDateToLocalFriendly(dateInput) {
         if (!dateInput) return "-";
         let d = new Date(dateInput);
@@ -737,7 +628,6 @@
             btnSave.style.display = "none";
             btnAdd.style.display = "none";
             
-            // HSE tidak melihat kolom hapus
             document.querySelectorAll('.action-col').forEach(el => el.style.display = 'none');
             document.querySelectorAll('#tableData input, #tableData select').forEach(el => {
                 el.setAttribute('readonly', 'true');
@@ -759,7 +649,6 @@
             btnSave.style.display = "inline-block";
             btnAdd.style.display = "block";
             
-            // ADMIN EDIT: Mengembalikan display kolom aksi hapus ke default browser ('') agar normal kembali
             document.querySelectorAll('.action-col').forEach(el => el.style.display = '');
             
             document.querySelectorAll('#tableData input:not(.nik-input, .role-input), #tableData select').forEach(el => {
@@ -782,24 +671,21 @@
                 let startMin = parseInt(start[0], 10) * 60 + parseInt(start[1], 10);
                 let endMin = parseInt(end[0], 10) * 60 + parseInt(end[1], 10);
                 
-                // Menangani lembur yang melewati tengah malam (cross-midnight)
                 if (endMin < startMin) {
-                    endMin += 1440; // Ditambah 24 jam dalam menit
+                    endMin += 1440; 
                 }
                 
                 let totalMinutes = endMin - startMin;
                 
-                // Definisi window waktu istirahat dalam menit dari jam 00:00 (Hari 1 & Hari 2 untuk cross-midnight)
                 let breakWindows = [
-                    { start: 720, end: 780 },     // 12:00 - 13:00 Hari ke-1
-                    { start: 1080, end: 1140 },   // 18:00 - 19:00 Hari ke-1
-                    { start: 2160, end: 2220 },   // 12:00 - 13:00 Hari ke-2
-                    { start: 2520, end: 2580 }    // 18:00 - 19:00 Hari ke-2
+                    { start: 720, end: 780 },     
+                    { start: 1080, end: 1140 },   
+                    { start: 2160, end: 2220 },   
+                    { start: 2520, end: 2580 }    
                 ];
                 
                 let totalBreakMinutes = 0;
                 
-                // Hitung irisan/overlap waktu lembur dengan waktu istirahat
                 breakWindows.forEach(b => {
                     let overlap = Math.max(0, Math.min(endMin, b.end) - Math.max(startMin, b.start));
                     totalBreakMinutes += overlap;
@@ -828,10 +714,8 @@
             let rowNo = tr.querySelector('.row-number').innerText;
 
             if (isHSE) {
-                // Tampilan HSE menampilkan jam Manhour
                 mhCol.innerHTML = mh.toFixed(1);
             } else {
-                // Tampilan Admin Edit menyuntikkan nomor urut di pojok kiri atas untuk kolom TTD
                 mhCol.innerHTML = `<div style="position: absolute; top: 2px; left: 4px; font-size: 8px; color: #475569; font-weight: bold;">${rowNo}</div>`;
             }
 
@@ -853,7 +737,6 @@
         const ctx = document.getElementById('weeklyMHChart').getContext('2d');
         if (weeklyChartInstance) { weeklyChartInstance.destroy(); }
         
-        // Membuat efek gradien biru transparan di bawah garis trend
         let gradient = ctx.createLinearGradient(0, 0, 0, 240);
         gradient.addColorStop(0, 'rgba(6, 182, 212, 0.4)');
         gradient.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
@@ -866,18 +749,18 @@
                     label: 'Manhours Terakumulasi',
                     data: Object.values(weeklyData),
                     backgroundColor: gradient,
-                    borderColor: '#06b6d4', // Warna garis cyan
+                    borderColor: '#06b6d4', 
                     borderWidth: 3,
-                    pointBackgroundColor: '#ffffff', // Warna dasar titik
+                    pointBackgroundColor: '#ffffff', 
                     pointBorderColor: '#06b6d4',
                     pointBorderWidth: 2,
                     pointRadius: 5,
-                    pointHoverRadius: 10, // Membesar saat di-hover
-                    pointHoverBackgroundColor: '#f59e0b', // Berubah orange saat di-hover
+                    pointHoverRadius: 10, 
+                    pointHoverBackgroundColor: '#f59e0b', 
                     pointHoverBorderColor: '#ffffff',
                     pointHoverBorderWidth: 3,
                     fill: true,
-                    tension: 0.4 // Membuat kurva mulus (smooth)
+                    tension: 0.4 
                 }]
             },
             options: {
@@ -886,7 +769,7 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(15, 23, 42, 0.95)', // Background dark mode eksklusif
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)', 
                         titleColor: '#06b6d4',
                         bodyColor: '#ffffff',
                         borderColor: '#06b6d4',
@@ -895,7 +778,7 @@
                         bodyFont: { family: 'Inter', size: 13, weight: '500' },
                         padding: 12,
                         cornerRadius: 8,
-                        displayColors: false, // Menghilangkan kotak warna pada tooltip
+                        displayColors: false, 
                         callbacks: {
                             label: function(context) { return `⏱️ ${context.parsed.y.toFixed(1)} Jam (MH)`; }
                         },
@@ -932,7 +815,6 @@
         document.getElementById('labelBulanTerpilih').innerText = `Grand Total Manhours (${formatBulanTahun(period)})`;
         let tbody = document.getElementById('executiveSummaryBody');
         
-        // Reset struktur data mingguan
         let weeklyData = { "Minggu 1 (Tgl 1-7)": 0, "Minggu 2 (Tgl 8-14)": 0, "Minggu 3 (Tgl 15-21)": 0, "Minggu 4 (Tgl 22+)": 0 };
 
         if(targetForms.length === 0) {
@@ -966,7 +848,6 @@
             let detailData = formDetailsCache[form.id];
             if (detailData && detailData.details) {
                 
-                // Klasifikasi Minggu
                 let formDate = new Date(form.tanggal);
                 let dateNum = formDate.getDate();
                 let weekKey = "Minggu 1 (Tgl 1-7)";
@@ -987,7 +868,6 @@
             }
         });
 
-        // Update Kartu Info & Grafik
         document.getElementById('hseStatAllMH').innerText = `${totalMH.toFixed(1)} MH`;
         document.getElementById('hseStatMonthCount').innerText = `Terakumulasi dari ${targetForms.length} Form Lembur`;
         renderWeeklyChart(weeklyData);
@@ -1022,17 +902,10 @@
         currentUser = null;
         document.getElementById('adminScreen').style.display = 'none';
         document.getElementById('rekapanScreen').style.display = 'none';
-        document.getElementById('login-overlay').style.display = 'flex';
-        document.getElementById('login-overlay').style.opacity = '1';
-        document.getElementById('login-overlay').style.visibility = 'visible';
         
-        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('loginScreen').style.display = 'block';
         document.getElementById('loginPass').value = '';
         document.getElementById('tableData').innerHTML = ''; 
-        
-        const btn = document.getElementById('enterBtn');
-        btn.innerHTML = '<i class="fa-solid fa-fingerprint"></i> MASUK SISTEM';
-        btn.style.pointerEvents = 'auto';
     }
 
     async function loadRekapanUser(nik) {
