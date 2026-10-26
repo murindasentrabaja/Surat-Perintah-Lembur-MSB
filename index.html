@@ -374,8 +374,8 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
             </div>
             <div class="sigs">
                 <div class="sig" id="sigHRD"><div>Diterima oleh,</div><div class="blank"></div><i></i><small>Human Resource Dept.</small></div>
-                <div class="sig" id="sigDisetujui"><div>Disetujui oleh,</div><div class="blank">Petrus Suhandoyo</div><i></i><small>Production Manager</small></div>
                 <div class="sig" id="sigDiketahui"><div>Diketahui oleh,</div><div class="blank"></div><i></i><small>Production Supervisor</small></div>
+                <div class="sig" id="sigDisetujui"><div>Disetujui oleh,</div><div class="blank">Petrus Suhandoyo</div><i></i><small>Production Manager</small></div>
             </div>
 
             <div class="sysfoot">
@@ -551,6 +551,7 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
             });
 
             refreshOptions(); selectLogin.disabled = false;
+            renderApproval(); // jabatan approval mengikuti sheet Karyawan, jadi render ulang setelah data termuat
             document.getElementById('btnLoginBtn').disabled = false;
             document.getElementById('btnLoginBtn').innerText = "Autentikasi";
         } catch (err) {
@@ -1236,13 +1237,59 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
         }
     }
 
+    /* ===== Jabatan approval: diambil dari sheet Karyawan (normalizedData) berdasarkan nama approval ===== */
+    // Kunci nama: huruf kecil, tanpa tanda baca, spasi dirapikan
+    const kunciNama = s => String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    // Kunci fonetik: toleran beda ejaan umum (Chrisna = Krisna, Yuhendrik = Yuhendrick, dst.)
+    const kunciFonetik = s => kunciNama(s).replace(/ch/g, 'k').replace(/kh/g, 'k').replace(/ph/g, 'f').replace(/c/g, 'k').replace(/y/g, 'i').replace(/\s/g, '').replace(/(.)\1+/g, '$1');
+
+    function jarakEdit(a, b) {
+        if (a === b) return 0;
+        let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+        for (let i = 1; i <= a.length; i++) {
+            const cur = [i];
+            for (let j = 1; j <= b.length; j++) {
+                cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+            }
+            prev = cur;
+        }
+        return prev[b.length];
+    }
+
+    // Cari karyawan untuk nama yang tertulis di kolom approval. Hasil: { nama, jabatan } atau null bila tidak ketemu.
+    function cariApprover(teks) {
+        const t = String(teks == null ? '' : teks).trim();
+        if (!t || !normalizedData.length) return null;
+        const daftar = normalizedData.filter(e => e.nama && e.role);
+        const k1 = kunciNama(t), k2 = kunciFonetik(t);
+        // 1) nama sama persis
+        let emp = daftar.find(e => kunciNama(e.nama) === k1);
+        // 2) nama sama tetapi beda ejaan (mis. Chrisna / Krisna)
+        if (!emp) emp = daftar.find(e => kunciFonetik(e.nama) === k2);
+        // 3) nama mirip (salah ketik 1-2 huruf), hanya bila kandidat terbaik jelas satu-satunya
+        if (!emp && k2.length >= 6) {
+            const batas = k2.length >= 12 ? 2 : 1;
+            const skor = daftar.map(e => ({ e, d: jarakEdit(k2, kunciFonetik(e.nama)) })).sort((a, b) => a.d - b.d);
+            if (skor.length && skor[0].d <= batas && (skor.length === 1 || skor[1].d > skor[0].d)) emp = skor[0].e;
+        }
+        if (emp) return { nama: t, jabatan: emp.role }; // nama tetap seperti di data approval, jabatan dari sheet Karyawan
+        // 4) yang tertulis ternyata jabatan (mis. "Production Manager"): pakai orangnya bila hanya ada satu
+        const sejabatan = daftar.filter(e => kunciNama(e.role) === k1);
+        if (sejabatan.length === 1) return { nama: sejabatan[0].nama, jabatan: sejabatan[0].role };
+        return null;
+    }
+
     function renderSig(key) {
         const d = APV_DEF[key], host = $(d.el); if (!host) return;
         const loading = !!(currentApproval && currentApproval.loading);
         const a = (!loading && currentApproval) ? currentApproval[key] : null;
         const st = !editId ? '' : loading ? 'loading' : (a ? a.state : 'none');
         const signed = st === 'signed' && a && a.ttd, done = signed || st === 'approved';
-        const nama = (done && a.nama) ? a.nama : d.cadangan;
+        const nama0 = (done && a.nama) ? a.nama : d.cadangan;
+        // Jabatan mengikuti sheet Karyawan sesuai nama yang tampil; jika tidak ditemukan pakai jabatan bawaan
+        const info = cariApprover(nama0);
+        const nama = info ? info.nama : nama0;
+        const jabatan = info ? info.jabatan : d.jabatan;
 
         let atas;
         if (signed) {
@@ -1255,11 +1302,11 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
         const tgl = (done && a.tanggal) ? formatTanggalIndo(a.tanggal) : '';
         const meta = done ? `<div class="smeta">${signed ? 'Ditandatangani digital' : 'Disetujui'}</div>${tgl ? `<div class="smeta">${esc(tgl)}</div>` : ''}` : '';
         const chip = st ? `<span class="apv-chip ${APV_CHIP[st][0]} np">${APV_CHIP[st][1]}</span>` : '';
-        host.innerHTML = `<div>${d.judul}</div>${atas}<i></i><small>${d.jabatan}</small>${meta}${chip}`;
+        host.innerHTML = `<div>${d.judul}</div>${atas}<i></i><small>${esc(jabatan)}</small>${meta}${chip}`;
     }
 
     function renderApproval() {
-        renderSig('disetujui'); renderSig('diketahui');
+        renderSig('diketahui'); renderSig('disetujui');
         const el = $('apvSummary'); if (!el) return;
         if (!editId) el.textContent = 'Simpan surat dulu. Approval digital berjalan setelah surat tersimpan.';
         else if (currentApproval && currentApproval.loading) el.textContent = APV_RINGKAS.loading;
