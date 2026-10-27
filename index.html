@@ -115,21 +115,21 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
 .sig .blank{height:70px;display:flex;align-items:flex-end;justify-content:center;font-weight:800}
 .sig i{display:block;width:80%;max-width:200px;border-bottom:1px solid #0b1630;margin:4px 0}
 .sig small{font-size:11.5px;font-weight:600;color:var(--mut)}
-.sysfoot{display:flex;align-items:center;gap:14px;margin-top:22px;padding-top:14px;border-top:1px dashed #b6c6e6;font-size:10px;color:#334155}
-/* kartu QR validasi dokumen */
-.vcard{flex:1.5 1 0;min-width:0;position:relative;display:flex;align-items:center;gap:12px;padding:7px 12px 7px 20px;border:1px solid #d3def3;border-radius:12px;background:linear-gradient(135deg,#f8fbff,#eaf1fe)}
-.vcard::before{content:"";position:absolute;left:8px;top:12px;bottom:12px;width:3px;border-radius:3px;background:linear-gradient(var(--red) 0 24%,var(--navy) 24% 100%)}
-.vqr{flex:none;line-height:0;padding:4px;background:#fff;border:1px solid #cdd7ea;border-radius:9px}
-.vqr.kosong{display:grid;place-items:center;box-sizing:content-box;width:var(--vqr,64px);height:var(--vqr,64px);border-style:dashed;color:#9aa8c6;font:800 13px var(--disp);line-height:1}
+.sysfoot{display:flex;flex-direction:column;align-items:stretch;gap:7px;margin-top:22px;padding-top:14px;border-top:1px dashed #b6c6e6;font-size:10px;color:#334155}
+/* kartu QR validasi dokumen: latar transparan + garis tipis putus-putus (hemat tinta, tanpa blok warna) */
+.vcard{min-width:0;position:relative;display:flex;align-items:center;gap:14px;padding:8px 14px;border:1px dashed #94a3c0;border-radius:12px;background:transparent}
+.vqr{flex:none;line-height:0;padding:0;background:transparent}
+.vqr.kosong{display:grid;place-items:center;box-sizing:content-box;width:var(--vqr,64px);height:var(--vqr,64px);border:1px dashed #b3bfd6;border-radius:6px;color:#9aa8c6;font:800 13px var(--disp);line-height:1}
 .vqrimg{display:block;width:var(--vqr,64px);height:var(--vqr,64px);background:#fff;object-fit:contain}
-.vtxt{min-width:0;display:flex;flex-direction:column;gap:2px;line-height:1.35}
-.vtag{font-size:8.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.vtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;line-height:1.35}
+.vtag{display:flex;align-items:center;gap:5px;font-size:8.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.vtag::before{content:"";flex:none;width:7px;height:7px;box-sizing:border-box;border:1.5px solid currentColor;border-radius:50%}
 .vttl{font:800 13px var(--disp);letter-spacing:-.005em;color:var(--navy)}
 .vdesc{font-size:9.5px;line-height:1.4;color:var(--mut)}
 .vlnk{margin-top:2px;font-size:9.5px;font-weight:700;color:var(--blue);word-break:break-all}
-.sysbox{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:10px}
-.sysbox img{width:46px;height:46px;flex:none}
-.sysbox .meta{flex:1;font-size:9px;line-height:1.45;color:#51607e}
+.vcode{flex:none;display:flex;align-items:center;padding-left:14px;border-left:1px dashed #b3bfd6;align-self:stretch}
+.vnote{font-size:9px;line-height:1.5;color:#51607e;text-align:center}
+.vnote b{font-weight:700;color:var(--blue);white-space:nowrap}
 /* approval digital */
 .btn.sm{padding:7px 14px;font-size:12.5px;border-radius:12px}
 .apvbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;padding:10px 14px;border-radius:14px;background:#f4f8ff;border:1px solid #dbe7ff}
@@ -141,6 +141,7 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
 .sigqr{display:block;width:84px;height:84px;background:#fff;object-fit:contain}
 .sname{font-weight:800;line-height:1.25}
 .smeta{margin-top:1px;font-size:10.5px;font-weight:600;line-height:1.3;color:var(--mut)}
+.smeta .jam{white-space:nowrap;font-variant-numeric:tabular-nums}
 .apv-chip{display:inline-block;margin-top:6px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;line-height:1.4;white-space:nowrap}
 .apv-ok{background:#d1fae5;color:#065f46}
 .apv-wait{background:#fde7c8;color:#92400e}
@@ -191,7 +192,7 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
   .bar{gap:6px;padding:8px}.bar .btn{flex:1;padding:11px 6px;font-size:13px}.bar .btn svg,.bar .sp{display:none}
   .kgrid{grid-template-columns:1fr}
   #rekapanScreen{padding:20px 16px}
-  .sysfoot{flex-wrap:wrap}.vcard{flex:1 1 100%}.sysbox{flex:1 1 220px}
+  .vcard{flex-wrap:wrap}.vtxt{flex:1 1 150px}.vcode{flex:1 1 100%;justify-content:center;padding:8px 0 0;border-left:0;border-top:1px dashed #b3bfd6}
   .paper .tw{border:0;overflow:visible;background:none}
   table.it,table.it tbody{display:block}
   table.it thead,table.it colgroup{display:none}
@@ -210,11 +211,11 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
 
 /* cetak — tata letak dokumen cetak (aturan ber-ID ini juga dipakai saat pengukuran auto-fit) */
 @page{size:A4 portrait;margin:8mm}
-#printContainer{--tdx:5px;--tdy:3px;--rowh:24px;--fs:11px;--gap:14px;--sigh:62px;--logo:44px;--qr:52px;--vqr:64px}
-#printContainer.d1{--tdx:4px;--tdy:2px;--rowh:22px;--fs:10.5px;--gap:11px;--sigh:52px;--logo:38px;--qr:46px;--vqr:60px}
-#printContainer.d2{--tdx:4px;--tdy:2px;--rowh:21px;--fs:10px;--gap:8px;--sigh:44px;--logo:34px;--qr:42px;--vqr:58px}
-#printContainer.d3{--tdx:3px;--tdy:1px;--rowh:19px;--fs:9.5px;--gap:6px;--sigh:38px;--logo:30px;--qr:38px;--vqr:56px}
-#printContainer.d4{--tdx:3px;--tdy:1px;--rowh:17px;--fs:9px;--gap:4px;--sigh:34px;--logo:26px;--qr:34px;--vqr:54px}
+#printContainer{--tdx:5px;--tdy:3px;--rowh:24px;--fs:11px;--gap:14px;--sigh:62px;--logo:44px;--vqr:64px}
+#printContainer.d1{--tdx:4px;--tdy:2px;--rowh:22px;--fs:10.5px;--gap:11px;--sigh:52px;--logo:38px;--vqr:60px}
+#printContainer.d2{--tdx:4px;--tdy:2px;--rowh:21px;--fs:10px;--gap:8px;--sigh:44px;--logo:34px;--vqr:58px}
+#printContainer.d3{--tdx:3px;--tdy:1px;--rowh:19px;--fs:9.5px;--gap:6px;--sigh:38px;--logo:30px;--vqr:56px}
+#printContainer.d4{--tdx:3px;--tdy:1px;--rowh:17px;--fs:9px;--gap:4px;--sigh:34px;--logo:26px;--vqr:54px}
 #printContainer .paper{box-shadow:none;border-radius:0;background:#fff;padding:2mm 4mm}
 #printContainer .kop{grid-template-columns:1fr auto;padding-bottom:calc(var(--gap) - 4px)}
 #printContainer .kop .logo{height:var(--logo);margin-bottom:4px}
@@ -241,15 +242,14 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
 #printContainer .sigs{grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--gap);font-size:var(--fs);page-break-inside:avoid}
 #printContainer .sig .blank{height:var(--sigh)}
 #printContainer .sig small{font-size:calc(var(--fs) - .5px)}
-#printContainer .sysfoot{margin-top:var(--gap);padding-top:calc(var(--gap) / 2 + 2px);font-size:calc(var(--fs) - 1px);flex-wrap:nowrap;page-break-inside:avoid}
-#printContainer .vcard{flex:1.5 1 0;padding:5px 10px 5px 18px;gap:10px;border-radius:10px;page-break-inside:avoid}
-#printContainer .vcard::before{left:7px;top:10px;bottom:10px}
+#printContainer .sysfoot{margin-top:var(--gap);padding-top:calc(var(--gap) / 2 + 2px);gap:calc(var(--gap) / 2 + 1px);font-size:calc(var(--fs) - 1px);page-break-inside:avoid}
+#printContainer .vcard{flex-wrap:nowrap;padding:5px 12px;gap:12px;border-radius:10px;border-color:#8b97b3;background:transparent;page-break-inside:avoid}
 #printContainer .vtag{font-size:max(7px,calc(var(--fs) - 2.5px))}
 #printContainer .vttl{font-size:calc(var(--fs) + 2px)}
 #printContainer .vdesc,#printContainer .vlnk{font-size:max(7.5px,calc(var(--fs) - 1.5px))}
-#printContainer .sysbox{flex:1 1 0}
-#printContainer .sysbox img{width:var(--qr);height:var(--qr)}
-#printContainer .sysbox .meta{font-size:max(7.5px,calc(var(--fs) - 1.5px))}
+#printContainer .vtxt{flex:1 1 0}
+#printContainer .vcode{flex:none;justify-content:flex-start;padding:0 0 0 12px;border-top:0;border-left:1px dashed #8b97b3}
+#printContainer .vnote{font-size:max(7.5px,calc(var(--fs) - 1.5px))}
 #printContainer{--sigqr:74px}#printContainer.d1{--sigqr:70px}#printContainer.d2{--sigqr:66px}#printContainer.d3{--sigqr:62px}#printContainer.d4{--sigqr:58px}
 #printContainer .sig .blank.hasqr{height:auto;min-height:0}
 #printContainer .sigqr{width:var(--sigqr);height:var(--sigqr)}
@@ -407,12 +407,9 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
                         <div class="vdesc">Pindai QR untuk memeriksa keaslian dokumen dan status approval secara online.</div>
                         <div class="vlnk" id="valLink">Muncul setelah surat disimpan</div>
                     </div>
+                    <div class="vcode"><svg id="barcode"></svg></div>
                 </div>
-                <div class="sysbox">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://murindasentrabaja.github.io/Surat-Perintah-Lembur-MSB/" alt="QR">
-                    <div class="meta">Dokumen ini dicetak dan dibuat serta disimpan secara otomatis melalui Sistem Lembur MSB.<br>Silakan scan QR dan masuk menggunakan ID Karyawan.</div>
-                </div>
-                <svg id="barcode"></svg>
+                <div class="vnote">Dokumen ini dicetak dan dibuat serta disimpan secara otomatis melalui Sistem Lembur MSB. Akses sistem di <b>murindasentrabaja.github.io/Surat-Perintah-Lembur-MSB</b>, masuk menggunakan ID Karyawan.</div>
             </div>
         </div>
 
@@ -1312,6 +1309,33 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
         return null;
     }
 
+    // Waktu approval: tanggal + jam:menit:detik. Nilai dari Code.gs berbentuk "yyyy-MM-ddTHH:mm:ss" (zona waktu spreadsheet),
+    // dibaca langsung dari teksnya supaya jam tidak bergeser oleh zona waktu perangkat. Format teks "dd/mm/yyyy hh:mm:ss" juga dikenali.
+    // Bila sel sumber hanya berisi tanggal (jam 00:00:00), jam tidak ditampilkan supaya tidak muncul jam palsu.
+    function waktuApproval(v) {
+        const s = String(v == null ? '' : v).trim();
+        if (!s) return { tgl: '', jam: '' };
+        let y, mo, d, h = 0, mi = 0, se = 0, m;
+        if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?)?/))) {
+            y = +m[1]; mo = +m[2]; d = +m[3]; h = +(m[4] || 0); mi = +(m[5] || 0); se = +(m[6] || 0);
+        } else if ((m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})(?:[ T,]+(\d{1,2})[:.](\d{2})(?:[:.](\d{2}))?)?/))) {
+            d = +m[1]; mo = +m[2]; y = +m[3]; h = +(m[4] || 0); mi = +(m[5] || 0); se = +(m[6] || 0);
+        } else {
+            const dt = new Date(s);
+            if (isNaN(dt)) return { tgl: s, jam: '' };
+            y = dt.getFullYear(); mo = dt.getMonth() + 1; d = dt.getDate(); h = dt.getHours(); mi = dt.getMinutes(); se = dt.getSeconds();
+        }
+        const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+        const p2 = n => String(n).padStart(2, '0');
+        if (mo < 1 || mo > 12 || d < 1 || d > 31) return { tgl: s, jam: '' };
+        const wd = new Date(Date.UTC(y, mo - 1, d)).getUTCDay();
+        return {
+            tgl: `${hari[wd]}, ${p2(d)}/${bulan[mo - 1]}/${String(y).slice(-2)}`,
+            jam: (h || mi || se) ? `${p2(h)}:${p2(mi)}:${p2(se)}` : ''
+        };
+    }
+
     function renderSig(key) {
         const d = APV_DEF[key], host = $(d.el); if (!host) return;
         const loading = !!(currentApproval && currentApproval.loading);
@@ -1332,8 +1356,8 @@ td.no{text-align:center;color:#6b7a99;font-weight:700}
         } else {
             atas = `<div class="blank">${esc(nama)}</div>`;
         }
-        const tgl = (done && a.tanggal) ? formatTanggalIndo(a.tanggal) : '';
-        const meta = done ? `<div class="smeta">${signed ? 'Ditandatangani digital' : 'Disetujui'}</div>${tgl ? `<div class="smeta">${esc(tgl)}</div>` : ''}` : '';
+        const w = (done && a.tanggal) ? waktuApproval(a.tanggal) : { tgl: '', jam: '' };
+        const meta = done ? `<div class="smeta">${signed ? 'Ditandatangani digital' : 'Disetujui'}</div>${w.tgl ? `<div class="smeta">${esc(w.tgl)}${w.jam ? ` <span class="jam">${esc(w.jam)}</span>` : ''}</div>` : ''}` : '';
         const chip = st ? `<span class="apv-chip ${APV_CHIP[st][0]} np">${APV_CHIP[st][1]}</span>` : '';
         host.innerHTML = `<div>${d.judul}</div>${atas}<i></i><small>${esc(jabatan)}</small>${meta}${chip}`;
     }
